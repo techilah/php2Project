@@ -1,3 +1,9 @@
+<?php
+
+require '/../lib/loader.php';
+
+?>
+
 <link rel="stylesheet" type="text/css" href="/css/styles.css" />
 <div id="header" class="header_class">
     <?php

@@ -9,14 +9,14 @@ div.wrapper {
 
 div.products_listing {
   width: 200px;
-  height: 500;
+  height: 1000;
   background: lightblue;
   border_style: solid; 
   /* Just so it's visible */
 }
 div.shopping_cart {
   flex: 1;
-  height: 500;
+  height: 1000;
   /* Grow to rest of container */
   background: lightgreen;
   /* Just so it's visible */

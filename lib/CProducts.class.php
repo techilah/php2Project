@@ -19,7 +19,7 @@ class CProduct {
     function __construct(array $product){
         $productID          = $product['productid'];
         $productDescription = $product['description'];
-        $productFilePath    = $product['productFilePath'];
+        $productFilePath    = $product['productfilepath'];
     }
 
 }
