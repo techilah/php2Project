@@ -38,6 +38,19 @@ class CProductsManager {
         return $htmlCode;        
     }
     
+    static function validateProductID($productID) {
+        $obj = DbSql::init();        
+        
+        $sql = "SELECT * FROM PRODUCTS where productid={$productID}";
+        
+        $product = $obj->selectArray($sql);
+        if (count($product) !== 1) {
+            return false;
+        }
+        return $product[0];
+        
+    }
+    
     
     
 }

@@ -21,8 +21,13 @@ require '/../lib/loader.php';
 
     <div id="cart" class="shopping_cart">
         <?php
-            require("/../templates/cart.php");
-        ?>
+        
+            if(isset($_GET['productid'])) {
+                require("/../templates/product.php");
+            } else {
+                require("/../templates/cart.php");
+            }
+            ?>
     </div>
 </div>
 
