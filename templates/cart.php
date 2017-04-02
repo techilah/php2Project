@@ -3,6 +3,7 @@
 if( isset($_SESSION['cart']) && !$_SESSION['cart']->isEmpty() ) {
     if(isset($_POST['submit']) && $_POST['submit'] === 'Finalize') {
         if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['email']) && $_SESSION['cart']->validateOrderData($_POST['fname'], $_POST['lname'],  $_POST['email'])) {
+            
             $_SESSION['cart']->placeOrder();
             unset($_SESSION['cart']);
         }

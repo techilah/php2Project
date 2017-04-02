@@ -23,7 +23,10 @@ class CShoppingCart {
             }
         } else {
             if ($productArray = CProductsManager::validateProductID($idProduct)) {
-                $this->products[$idProduct] = new CProduct($productArray,$quantity);
+                try {
+                    $this->products[$idProduct] = new CProduct($productArray,$quantity);
+                } catch (Exception $e) {
+                }
                 return true;
             } else {
                 return false;
@@ -88,10 +91,9 @@ class CShoppingCart {
             $ok = false;
             $this->lastName = '';
         }
-        if($this->email = filter_var($email,FILTER_VALIDATE_EMAIL)){
-            $ok = false;
-        } else {
+        if(!$this->email = filter_var($email,FILTER_VALIDATE_EMAIL)){
             $this->email = '';
+            $ok = false;
         }
         return $ok;
     }

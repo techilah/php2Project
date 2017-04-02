@@ -20,11 +20,15 @@ class CProduct {
     
     function __construct($product = array(), $quantity = 1){
         if(!empty($product)) {
-            $this->productID          = $product['productid'];
-            $this->productName = $product['productname'];
-            $this->productDescription = $product['productdescription'];
-            $this->productFilePath    = $product['productfilepath'];
-            $this->quantity = $quantity;
+            if($this->setQuantity($quantity)) {
+                $this->productID          = $product['productid'];
+                $this->productName = $product['productname'];
+                $this->productDescription = $product['productdescription'];
+                $this->productFilePath    = $product['productfilepath'];
+                $this->quantity = $quantity;
+            } else {
+                throw new InvalidArgumentException('$foo should consists of letters only');
+            }
         }
     }
     
