@@ -28,7 +28,17 @@ class CProduct {
         }
     }
     
-    function productToHtmlinProductPage(){
+        
+    function setQuantity($quantity) {
+        if (is_numeric($quantity) && (int)$quantity > 0){
+            $this->quantity = (int)$quantity;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    function productToHtmlInProductPage(){
         echo "<center>";
         
         echo "<img src=\"/images/{$this->productFilePath}\"  height=\"100\" width=\"100\">";
@@ -37,7 +47,7 @@ class CProduct {
         
         echo "<form method=\"post\" action=\"index.php\">";
         echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
-        echo "Quantity: <input type=\"text\" size=\"4\" name=\"quantity\" value=\"1\"><br/><br/>";
+        echo "Quantity: <input type=\"text\" size=\"4\" name=\"quantity\" value=\"{$this->quantity}\"><br/><br/>";
         echo "<input id=\"add\" type=\"submit\" name=\"submit\" value=\"Add\">";
         echo "</form>";
         
@@ -48,7 +58,7 @@ class CProduct {
         echo "<center>";
         
         echo "<img src=\"/images/{$this->productFilePath}\"  height=\"100\" width=\"100\">";
-        echo "<b>{$this->productName}</b>";
+        echo "<b><a href=\"index.php?productid={$this->productID}\"><b>{$this->productName}</b></a></b>";
         echo "  X  {$this->quantity}";
         
         echo "<form method=\"post\" action=\"index.php\">";
@@ -58,14 +68,6 @@ class CProduct {
         
         echo "</center>";
     }
-    
-    function setQuantity($quantity) {
-        if (is_numeric($quantity) && (int)$quantity > 0){
-            $this->quantity = (int)$quantity;
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
 }
