@@ -1,6 +1,9 @@
 div.header_class {
-   border-style: solid;
-   height: 160;
+    border-style: solid;
+    background: blanchedalmond;
+    align-content: center;
+    align-items: center;
+    height: 160;
 }
 
 div.wrapper {
@@ -8,19 +11,22 @@ div.wrapper {
 }
 
 div.products_listing {
-  width: 200px;
-  height: 1000;
-  background: lightblue;
-  border_style: solid; 
-  /* Just so it's visible */
+    width: 300px;
+    height: 1000;
+    background: lightblue;
+    border_style: solid; 
+    /* Just so it's visible */
 }
 div.shopping_cart {
-  flex: 1;
-  height: 1000;
-  /* Grow to rest of container */
-  background: lightgreen;
-  /* Just so it's visible */
-  border_style: solid;
+    flex: 1;
+    height: 1000;
+    /* Grow to rest of container */
+    background: lightgreen;
+    /* Just so it's visible */
+    border_style: solid;
 }
-
+div.admin_class {
+      background: lightgreen;
+      height: 1000;
+}
 

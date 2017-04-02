@@ -15,6 +15,7 @@ class CProduct {
     private $productID;
     private $productName;
     private $productDescription;
+    private $unitPrice;
     private $productFilePath;
     private $quantity;
     
@@ -26,6 +27,7 @@ class CProduct {
                 $this->productDescription = $product['productdescription'];
                 $this->productFilePath    = $product['productfilepath'];
                 $this->quantity = $quantity;
+                $this->unitPrice = $product['unitprice'];
             } else {
                 throw new InvalidArgumentException('$foo should consists of letters only');
             }
@@ -51,7 +53,8 @@ class CProduct {
         
         echo "<form method=\"post\" action=\"index.php\">";
         echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
-        echo "Quantity: <input type=\"text\" size=\"4\" name=\"quantity\" value=\"{$this->quantity}\"><br/><br/>";
+        echo "Quantity: <input type=\"text\" size=\"4\" name=\"quantity\" value=\"{$this->quantity}\"><br/>";
+        echo "Price: ". $this->unitPrice * $this->quantity . " " . CURRENCY . "<br/><br/>";
         echo "<input id=\"add\" type=\"submit\" name=\"submit\" value=\"Add\">";
         echo "</form>";
         
@@ -62,8 +65,8 @@ class CProduct {
         echo "<center>";
         
         echo "<img src=\"/images/{$this->productFilePath}\"  height=\"100\" width=\"100\">";
-        echo "<b><a href=\"index.php?productid={$this->productID}\"><b>{$this->productName}</b></a></b>";
-        echo "  X  {$this->quantity}";
+        echo "{$this->quantity} X <b><a href=\"index.php?productid={$this->productID}\"><b>{$this->productName}</b></a></b>";
+        echo "  ". $this->unitPrice * $this->quantity . " " . CURRENCY;
         
         echo "<form method=\"post\" action=\"index.php\">";
         echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
@@ -71,6 +74,10 @@ class CProduct {
         echo "</form>";
         
         echo "</center>";
+    }
+    
+    function toEmail(){
+        return "{$this->quantity} X {$this->productName} (id: {$this->productID}) => " . $this->unitPrice * $this->quantity . " " . CURRENCY . "\n\n";
     }
 
 

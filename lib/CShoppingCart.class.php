@@ -108,7 +108,21 @@ class CShoppingCart {
     
     function placeOrder(){
         //sent an email;
-        echo '<script>alert("Order was successfuly placed!!!");</script>';
+        
+        //print_r($this->toEmail());
+        mail(ADMIN_EMAIL,"You have a new order", $this->toEmail());
+    }
+    
+    function toEmail(){
+        $return = "A new order was placed. Details are below: \n";
+        $return .= "Name: {$this->firstName} {$this->lastName} \n";
+        $return .= "Email: {$this->email}\n\n";
+        $return .= "Ordered products:\n";
+        
+        foreach($this->products as $product) {
+            $return .= $product->toEmail();
+        }
+        return $return;
     }
     
     function isEmpty(){

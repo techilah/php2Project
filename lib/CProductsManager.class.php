@@ -32,7 +32,7 @@ class CProductsManager {
         
         foreach ($products as $productInfo) {
             $htmlCode .= "<img src=\"/images/{$productInfo['productfilepath']}\"  height=\"42\" width=\"42\">";
-            $htmlCode .= "  <a href=\"index.php?productid={$productInfo['productid']}\"><b>{$productInfo['productname']}</b></a><br/><br/>";
+            $htmlCode .= "  <a href=\"index.php?productid={$productInfo['productid']}\"><b>{$productInfo['productname']}</b></a>   " . $productInfo['unitprice'] . " " . CURRENCY . "<br/><br/>";
             $htmlCode .= " {$productInfo['productdescription']}<br/><br/>";
         }
         return $htmlCode;        

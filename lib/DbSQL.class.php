@@ -15,6 +15,7 @@ class DbSQL {
     
     private static $_instance;
     private $conn;
+    private $statement;
     
     private function __construct(){
         $this->conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASS, DB_NAME);        
@@ -29,7 +30,6 @@ class DbSQL {
     
     public function selectArray($sql){
         $result = $this->conn->query($sql);
-        
         $retval = [];
         
         while ($row = $result->fetch_assoc()){
@@ -39,6 +39,9 @@ class DbSQL {
         return $retval;
     }
     
+    function escapeString($string){
+        return $this->conn->real_escape_string($string);
+    }
     
     
 }

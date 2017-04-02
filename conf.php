@@ -9,4 +9,6 @@ define('DB_PORT', 3306);
 define('DB_USERNAME', 'cart');
 define('DB_PASS', 'test123#');
 define('DB_NAME', 'cart');
+define('CURRENCY', 'EUR');
+define('ADMIN_EMAIL', 'tudor.gologan@live.com');
 
