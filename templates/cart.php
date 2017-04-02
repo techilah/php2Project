@@ -1,35 +1,35 @@
 <?php
 
+if( isset($_SESSION['cart']) && !$_SESSION['cart']->isEmpty() ) {
+    if(isset($_POST['submit']) && $_POST['submit'] === 'Finalize') {
+        if(isset($_POST['fname']) && isset($_POST['lname']) && isset($_POST['email']) && $_SESSION['cart']->validateOrderData($_POST['fname'], $_POST['lname'],  $_POST['email'])) {
+            $_SESSION['cart']->placeOrder();
+            unset($_SESSION['cart']);
+        }
+    }
+}
+
 if(isset($_POST['submit']) && $_POST['submit'] === 'Add'){
     if (isset($_POST['productid']) && is_numeric($_POST['productid'])){
-        if (isset($_SESSION['cart']) && array_key_exists($_POST['productid'], $_SESSION['cart'])){
-            $productInCart = new CProduct();
-            $productInCart = unserialize($_SESSION['cart'][$_POST['productid']]);
-            if (!$productInCart->setQuantity($_POST['quantity'])) {
-                CError::displayError();
-            } else {
-                $_SESSION['cart'][$_POST['productid']] = serialize($productInCart);
-            }
-        } else {
-            if ($prod = CProductsManager::validateProductID($_POST['productid'])){
-                $_SESSION['cart'][$_POST['productid']] = serialize(new CProduct($prod, $_POST['quantity']));
-            }
+        if (!isset($_SESSION['cart'])) { 
+            $_SESSION['cart'] = new CShoppingCart();
         }
+        $_SESSION['cart']->addProduct($_POST['productid'], $_POST['quantity']);
     } 
 }
 
 if(isset($_POST['submit']) && $_POST['submit'] === 'Delete'){
     if (isset($_POST['productid']) && is_numeric($_POST['productid'])){
-        if (isset($_SESSION['cart']) && array_key_exists($_POST['productid'], $_SESSION['cart'])){
-            unset($_SESSION['cart'][$_POST['productid']]);
+        if (isset($_SESSION['cart'])) { 
+            $_SESSION['cart']->deleteProduct($_POST['productid']);
         }
     }
 }
 
-if( isset($_SESSION['cart']) && !empty($_SESSION['cart']) ) {
-    foreach ($_SESSION['cart'] as $cartProductsSerialized){
-        $cartProduct = unserialize($cartProductsSerialized);
-        $cartProduct->productToHtmlInCart();
+if( isset($_SESSION['cart']) && !$_SESSION['cart']->isEmpty() ) {
+    $_SESSION['cart']->cartToHtml();
+    if((isset($_POST['submit']) && $_POST['submit'] === 'Place Order') || ($_SESSION['cart']->hasCustomerInformation())){
+        $_SESSION['cart']->showOrderFormHtml();
     }
 } else {
     CError::emptyCart();

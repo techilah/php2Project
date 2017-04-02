@@ -1,7 +1,7 @@
 <?php
 
-session_start();
 require '/../lib/loader.php';
+session_start();
 
 ?>
 

@@ -24,7 +24,7 @@ class CProduct {
             $this->productName = $product['productname'];
             $this->productDescription = $product['productdescription'];
             $this->productFilePath    = $product['productfilepath'];
-            $this->quantity = 1;
+            $this->quantity = $quantity;
         }
     }
     
