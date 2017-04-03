@@ -61,6 +61,18 @@ class CProduct {
         echo "</center>";
     }
     
+    function productToHtmlInAdmin(){
+        echo "<center>";
+        echo "<form method=\"post\" action=\"index.php?option=view\">";
+        echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
+        echo "Product name:<input type=\"text\" name=\"productname\" value=\"{$this->productName}\"><br/>";
+        echo "Unit price:<input type=\"text\" size=5 name=\"unitprice\" value=\"{$this->unitPrice}\"> " . CURRENCY . "<br/>";
+        echo "Product description: <input type=\"text\" name=\"productdescription\" value=\"{$this->productDescription}\"><br/>";
+        echo "<input id=\"edit\" type=\"submit\" name=\"submit\" value=\"Edit\">";
+        echo "</form>";
+        echo "</center>";
+    }
+    
     function productToHtmlInCart(){
         echo "<center>";
         

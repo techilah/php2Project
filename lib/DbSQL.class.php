@@ -43,5 +43,10 @@ class DbSQL {
         return $this->conn->real_escape_string($string);
     }
     
+    public function updateQuery($sql){
+        $result = $this->conn->query($sql);
+
+        return $this->conn->affected_rows;
+    }
     
 }
