@@ -90,6 +90,7 @@ class CProductsManager {
         echo "Product file: <input type=\"file\" name=\"productfile\" if=\"productfile\"><br/>";
         echo "<input id=\"add\" type=\"submit\" name=\"submit\" value=\"Add\">";
         echo "</form>";
+        echo "<a href=\"index.php\">Back</a>";
         echo "</center>";
     }
     
