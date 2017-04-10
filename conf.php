@@ -11,4 +11,5 @@ define('DB_PASS', 'test123#');
 define('DB_NAME', 'cart');
 define('CURRENCY', 'EUR');
 define('ADMIN_EMAIL', 'tudor.gologan@live.com');
+define('DEFAULT_IMAGE_NAME', 'no_image.jpg');
 

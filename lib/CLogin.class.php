@@ -35,4 +35,10 @@ class CLogin {
             return false;
         } 
     }
+    
+    static function logout(){
+        if (isset($_SESSION['username'])) {
+            unset($_SESSION['username']);
+        }
+    }
 }

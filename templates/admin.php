@@ -6,6 +6,11 @@ if(isset($_POST['login']) && !empty($_POST['username']) && !empty($_POST['passwo
     }
 }
 
+if(isset($_GET['option']) && $_GET['option'] === 'logout'){
+    CLogin::logout();
+
+}
+
 if(!CLogin::isLoggedIn()) {
     CLogin::displayLoginForm();
     die();
@@ -17,6 +22,10 @@ if (isset($_POST['submit']) && $_POST['submit'] === 'Edit' && is_numeric($_POST[
 
 if (isset($_POST['submit']) && $_POST['submit'] === 'Add' && !empty($_POST['productname']) && is_numeric($_POST['unitprice']) && $_POST['unitprice'] > 0 && !empty($_FILES['productfile'])){
     CProductsManager::addProduct($_POST, $_FILES);
+}
+
+if (isset($_POST['submit']) && $_POST['submit'] === 'Import' && !empty($_FILES['productsxml'])){
+    CProductsManager::processXML($_FILES);
 }
 
 if (isset($_POST['submit']) && $_POST['submit'] === 'Delete' && !empty($_POST['productid']) ){
@@ -46,6 +55,12 @@ if(isset($_GET['option']) && $_GET['option'] === 'edit' && isset($_GET['producti
         die();
     }
 
+}
+
+if(isset($_GET['option']) && $_GET['option'] === 'import'){
+    CProductsManager::displayXMLForm();
+    die();
+    
 }
 
 

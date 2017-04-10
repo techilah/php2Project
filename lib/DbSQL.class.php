@@ -49,4 +49,16 @@ class DbSQL {
         return $this->conn->affected_rows;
     }
     
+    public function begin_transaction() {
+        return $this->conn->begin_transaction();
+    }
+    
+    public function commit() {
+        return $this->conn->commit();
+    }
+    
+    public function rollback(){
+        return $this->conn->rollback();
+    }
+    
 }

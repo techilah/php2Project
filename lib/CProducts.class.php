@@ -48,9 +48,8 @@ class CProduct {
         echo "<center>";
         
         echo "<img src=\"/images/{$this->productFilePath}\"  height=\"100\" width=\"100\">";
-        echo "<b>{$this->productName}</b><br/><br/>";
-        echo "{$this->productDescription}<br/><br/>";
-        
+        echo "<b>". htmlentities($this->productName) . "</b><br/><br/>";
+        echo htmlentities($this->productDescription) . "<br/><br/>";        
         echo "<form method=\"post\" action=\"index.php\">";
         echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
         echo "Quantity: <input type=\"text\" size=\"4\" name=\"quantity\" value=\"{$this->quantity}\"><br/>";
@@ -65,11 +64,12 @@ class CProduct {
         echo "<center>";
         echo "<form method=\"post\" action=\"index.php?option=view\">";
         echo "<input type=\"hidden\" name=\"productid\" value=\"$this->productID\">";
-        echo "Product name:<input type=\"text\" name=\"productname\" value=\"{$this->productName}\"><br/>";
+        echo "Product name:<input type=\"text\" name=\"productname\" value=\"" . htmlentities($this->productName) . "\"><br/>";
         echo "Unit price:<input type=\"text\" size=5 name=\"unitprice\" value=\"{$this->unitPrice}\"> " . CURRENCY . "<br/>";
-        echo "Product description: <input type=\"text\" name=\"productdescription\" value=\"{$this->productDescription}\"><br/>";
+        echo "Product description: <input type=\"text\" name=\"productdescription\" value=\"" . htmlentities($this->productDescription) . "\"><br/>";
         echo "<input id=\"edit\" type=\"submit\" name=\"submit\" value=\"Edit\">";
         echo "</form>";
+        echo "<a href=\"index.php\">Back</a>";
         echo "</center>";
     }
     
@@ -77,7 +77,7 @@ class CProduct {
         echo "<center>";
         
         echo "<img src=\"/images/{$this->productFilePath}\"  height=\"100\" width=\"100\">";
-        echo "{$this->quantity} X <b><a href=\"index.php?productid={$this->productID}\"><b>{$this->productName}</b></a></b>";
+        echo "{$this->quantity} X <b><a href=\"index.php?productid={$this->productID}\"><b>" . htmlentities($this->productName) . "</b></a></b>";
         echo "  ". $this->unitPrice * $this->quantity . " " . CURRENCY;
         
         echo "<form method=\"post\" action=\"index.php\">";

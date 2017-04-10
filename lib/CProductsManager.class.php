@@ -32,8 +32,8 @@ class CProductsManager {
         
         foreach ($products as $productInfo) {
             $htmlCode .= "<img src=\"/images/{$productInfo['productfilepath']}\"  height=\"42\" width=\"42\">";
-            $htmlCode .= "  <a href=\"index.php?productid={$productInfo['productid']}\"><b>{$productInfo['productname']}</b></a>   " . $productInfo['unitprice'] . " " . CURRENCY . "<br/><br/>";
-            $htmlCode .= " {$productInfo['productdescription']}<br/><br/>";
+            $htmlCode .= "  <a href=\"index.php?productid={$productInfo['productid']}\"><b>" . htmlentities($productInfo['productname']) . "</b></a>   " . $productInfo['unitprice'] . " " . CURRENCY . "<br/><br/>";
+            $htmlCode .= " " . htmlentities($productInfo['productdescription']) . "<br/><br/>";
         }
         return $htmlCode;        
     }
@@ -44,8 +44,8 @@ class CProductsManager {
         echo "<center><br/><b>Available products:</b><br/><br/>";
         foreach ($products as $productInfo) {
             echo "  <a href=\"index.php?option=edit&productid={$productInfo['productid']}\">";
-            echo "<b>{$productInfo['productname']}</b></a>   " . $productInfo['unitprice'] . " " . CURRENCY;
-            echo " {$productInfo['productdescription']}<br/><br/>";
+            echo "<b>" . htmlentities($productInfo['productname']) . "</b></a>   " . $productInfo['unitprice'] . " " . CURRENCY;
+            echo " " . htmlentities($productInfo['productdescription']) . "<br/><br/>";
         }
         
         echo "<a href=\"index.php\">Back</a>";
@@ -56,7 +56,7 @@ class CProductsManager {
     static function validateProductID($productID) {
         $obj = DbSql::init();        
         
-        $sql = "SELECT * FROM PRODUCTS where productid={$productID}";
+        $sql = "SELECT * FROM PRODUCTS where productid=" . (int)$productID;
         
         $product = $obj->selectArray($sql);
         if (count($product) !== 1) {
@@ -94,9 +94,11 @@ class CProductsManager {
         echo "</center>";
     }
     
-    static function addProduct($product, $file){
+    static function addProduct($product, $file, $fromXML = false){
         
-        if(is_uploaded_file($file['productfile']['tmp_name'])) {
+        $obj = DbSQL::init();
+        
+        if(is_uploaded_file($file['productfile']['tmp_name']) && !$fromXML) {
             $path_parts = pathinfo($file['productfile']['name']);
             $extension = $path_parts['extension'];
             $filename = uniqid() . "." . $extension;
@@ -104,18 +106,27 @@ class CProductsManager {
             
             if (move_uploaded_file($file['productfile']['tmp_name'], $filepath)){
                 if (!empty($product)) {
-                    $obj = DbSQL::init();
+
                     $sql = "INSERT INTO 
                                 products 
                             (products.productname, products.unitprice, products.productdescription, products.productfilepath) 
                             values ('" . $obj->escapeString($product['productname']) . "', " . $product['unitprice'] . ", '" . $obj->escapeString($product['productdescription']) . "','" . $obj->escapeString($filename) . "')";
                     
-                    $obj->updateQuery($sql);
+
 
                 }
             }
             
+        } else {
+            $sql = "INSERT INTO 
+                        products 
+                    (products.productname, products.unitprice, products.productdescription, products.productfilepath) 
+                    values ('" . $obj->escapeString($product['productname']) . "', " . $product['unitprice'] . ", '" . $obj->escapeString($product['productdescription']) . "','" . $obj->escapeString(DEFAULT_IMAGE_NAME) . "')";
+                    
         }
+        
+        $obj->updateQuery($sql);
+        
     }
     
             
@@ -150,6 +161,75 @@ class CProductsManager {
          $obj->updateQuery($sql);
     }
     
+    static function productsToXML(){
+        $products = self::getAllProductsFromDB();
+        
+        //print_r($products);
+        $xml = new SimpleXMLElement('<?xml version="1.0"?><products></products>');
+        foreach ($products as $key => $product){
+            $xml->addChild('product');
+            foreach ($product as $k => $v){
+                $xml->product[$key]->addChild($k, $v);
+            }
+        }
+        
+        return $xml;        
+    }
+    
+    static function displayXMLForm(){
+        echo "<center>";
+        echo "<form method=\"post\" action=\"index.php\" enctype=\"multipart/form-data\">";
+        echo "Product file: <input type=\"file\" name=\"productsxml\" if=\"productfile\"><br/>";
+        echo "<input id=\"import\" type=\"submit\" name=\"submit\" value=\"Import\">";
+        echo "</form>";
+        echo "<a href=\"index.php\">Back</a>";
+        echo "</center>";
+    }
+    
+    static function processXML($files){
+        
+        try {
+            $xml = simplexml_load_file($files['productsxml']['tmp_name']);
+        } catch (Exception $e) {
+            return;
+        }
+        
+        $obj = DbSql::init();
+        $obj->begin_transaction();
+        $success = true;
+        
+        foreach ($xml->children() as $product){
+            $product = (array)$product;
+            if(self::arrayHasEnoughProductData($product)){
+                if(isset($product['productid'])){ 
+                    if (self::validateProductID($product['productid'])){
+                    } else {
+                        $succes = false;
+                    }
+                } else {
+                    self::addProduct($product, null, true);
+                }
+            } else {
+                $success = false;
+            }
+        
+        }
+        
+    }
+    
+    static function arrayHasEnoughProductData($product){
+        if(!isset($product['productname']) || empty($product['productname'])){
+            return false;
+        }
+        if(!isset($product['productdescription']) || empty($product['productdescription'])){
+            return false;
+        }
+        if(!isset($product['unitprice']) || !is_numeric($product['unitprice']) || $product['unitprice'] <= 0){
+            return false;
+        }
+        
+        return true;
+    }
     
     
 }

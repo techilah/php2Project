@@ -14,6 +14,7 @@ class CAdmin {
         echo "<a href=\"index.php?option=delete\"><b>Delete product</b></a></b><br/><br/>";
         echo "<a href=\"index.php?option=import\"><b>Import products XML</b></a></b><br/><br/>";
         echo "<a href=\"index.php?option=export\"><b>Export products XML</b></a></b><br/><br/>";
+        echo "<a href=\"index.php?option=logout\"><b>Logout</b></a></b><br/><br/>";
         echo "</center>";
     }
 }
