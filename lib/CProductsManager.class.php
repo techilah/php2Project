@@ -204,7 +204,7 @@ class CProductsManager {
                 if(isset($product['productid'])){ 
                     if (self::validateProductID($product['productid'])){
                     } else {
-                        $succes = false;
+                        $success = false;
                     }
                 } else {
                     self::addProduct($product, null, true);
@@ -213,6 +213,12 @@ class CProductsManager {
                 $success = false;
             }
         
+        }
+        
+        if ($success) {
+            $obj->commit();
+        } else {
+            $obj->rollback();
         }
         
     }
