@@ -17,8 +17,8 @@ class CLogin {
     
     static function displayLoginForm(){
         echo "<center><form method=\"post\" action=\"\"><br/><br/><br/>";
-        echo "Username: <input type=\"text\" name=\"username\" value=\"\"><br/><br/>";
-        echo "Password: <input type=\"password\" name=\"password\" value=\"\"><br/><br/>";
+        echo "Username: <input id=\"username\" type=\"text\" name=\"username\" value=\"\"><br/><br/>";
+        echo "Password: <input id=\"password\" type=\"password\" name=\"password\" value=\"\"><br/><br/>";
         echo "<input id=\"login\" type=\"submit\" name=\"login\" value=\"Login\"><br/>";
         echo "</form></center>";
     }
